@@ -1,0 +1,30 @@
+version: "2.0"
+services:
+  db:
+    container_name: tinkoffbot-mongo
+    image: mongo:latest
+    networks:
+      - tinkoffbot
+    volumes:
+      - tinkoffbot-mongo-data:/data/db
+
+  bot:
+    container_name: tinkoffbot-bot
+    image: tinkoffbot
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - .:/code:ro
+    networks:
+      - tinkoffbot
+    command: python -m src.main
+
+
+networks:
+  tinkoffbot:
+
+volumes:
+  tinkoffbot-mongo-data:
+    name: tinkoffbot-mongo-data
+
