@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -it tinkoffbot-bot python -m src.fill_data
+docker-compose -f docker-compose-script.yml up --build -d

@@ -40,7 +40,6 @@ class Commands:
             db.app_state.delete_one(d_find)
         get_random_party_rk()
 
-
     @classmethod
     def flush(cls, chat_id):
         d_find = {"chat_id": chat_id}

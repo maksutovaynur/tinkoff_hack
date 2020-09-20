@@ -1,0 +1,19 @@
+version: "2.0"
+services:
+  script:
+    container_name: tinkoffbot-script
+    image: tinkoffbot
+    build:
+      dockerfile: Dockerfile
+      context: .
+    volumes:
+      - .:/code:ro
+    networks:
+      - tinkoffbot
+    command: python -m src.fill_data
+
+
+networks:
+  tinkoffbot:
+
+
