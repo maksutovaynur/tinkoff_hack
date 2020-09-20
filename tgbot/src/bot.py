@@ -67,7 +67,7 @@ def root(message: Message):
         elif t == CTypes.CONTINUE_GAME:
             Logics.next_day(part)
         else:
-            bot.send_message(chat_id, "Sorry, unknown action")
+            # bot.send_message(chat_id, "Sorry, unknown action")
             Commands.help(chat_id)
 
 
