@@ -268,8 +268,8 @@ class Logics:
             cls.suggest_new_categories(part)
             return
         days_from_start = (part["today"] - part["curr_challenge_start_dttm"]).days
-        moneys = [100, 200, 300]
         amt_spent, amt_limit, amt_pred, percent = get_amts(part)
+        moneys = [max(int(m / 100), 1) * 100 for m in (amt_spent * x for x in (0.02, 0.07, 0.2))]
         cls.notify(
             part,
             f"Day {1 + days_from_start}\n"
