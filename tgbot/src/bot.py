@@ -51,7 +51,7 @@ def root(message: Message):
         if t == CTypes.NEXT_DAY:
             Logics.next_day(part)
         elif t.startswith(CParts.SPEND):
-            sum_str = t.rsplit(" ", 1)[-1]
+            sum_str = t.rsplit(" ")[1]
             try: sum = float(sum_str)
             except:
                 bot.send_message(chat_id, f"Please repeat: wrong sum '{sum_str}'")
@@ -62,7 +62,7 @@ def root(message: Message):
         elif t.startswith(CParts.SELECT_PERCENT):
             Logics.select_percentage(part, int(t.split(" ", 1)[-1][:-1]))
         elif t.startswith(CParts.CHANGE_MODEL):
-            Logics.change_model(part, t.split(" ", 1)[1])
+            Logics.change_model(part, t.split(" ", 1)[-1])
         elif t == CTypes.CONTINUE_GAME:
             Logics.todays_goal(part)
         else:
