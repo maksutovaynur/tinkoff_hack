@@ -244,7 +244,7 @@ class Logics:
     def money_left(cls, part):
         amt_spent, amt_limit, amt_pred, percent = get_amts(part)
         all_days = (part["curr_challenge_end_dttm"] - part["curr_challenge_start_dttm"]).days
-        days_for_finish = (part["curr_challenge_end_dttm"] - part["today"]).days
+        days_for_finish = (part["curr_challenge_end_dttm"] - part["today"]).days - 1
         mean_spend = amt_limit / all_days
         can_spend_until_tomorrow = amt_limit - mean_spend * days_for_finish
         today_left = max(0, can_spend_until_tomorrow - amt_spent)
