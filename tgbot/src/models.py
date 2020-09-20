@@ -37,8 +37,9 @@ class SimpleStatModel(Model):
         for tr in all_transactions:
             cat = tr["category"]
             result[cat] = result.setdefault(cat, 0) + tr["transaction_amt_rur"]
-        with_importance = sorted([(k, v, v * importance[str(k)]) for k, v in result.items()], key=lambda x: -x[-1])[:3]
-        return [w[0] for w in with_importance]
+        with_importance_list = sorted([(k, v, v * importance[str(k)]) for k, v in result.items()], key=lambda x: -x[-1])
+        lst = [x for x in (w[0] for w in with_importance_list) if isinstance(x, str) and x.lower() != "nan"]
+        return lst[:3]
 
     def predict_week_amt(self, part: dict):
         now = part["today"]

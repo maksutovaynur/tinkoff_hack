@@ -12,7 +12,6 @@ category_names = [
 importance = {
     float('nan'): 0,
     'nan': 0,
-    'nan': 0,
     'NaN': 0,
     'Duty Free': 10,
     'Авиабилеты': 10,
