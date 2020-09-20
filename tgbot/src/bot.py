@@ -112,7 +112,7 @@ class Commands:
         part = dict(
             **party_data,
             weekday_to_start=1,
-            model_to_use=ModelTypes.SIMPLE_STAT,
+            model_to_use=ModelTypes.STUPID,
             today=datetime.fromisoformat("2019-06-01"),
             chat_id=chat_id,
             account_money=30000,
