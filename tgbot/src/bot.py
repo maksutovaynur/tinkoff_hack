@@ -38,6 +38,7 @@ class Commands:
         if result is not None:
             bot.send_message(chat_id, "Deleted existing simulation data")
             db.app_state.delete_one(d_find)
+        get_random_party_rk()
 
 
     @classmethod
