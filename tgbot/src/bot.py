@@ -62,7 +62,7 @@ def root(message: Message):
         elif t.startswith(CParts.SELECT_PERCENT):
             Logics.select_percentage(part, int(t.split(" ", 1)[-1][:-1]))
         elif t.startswith(CParts.CHANGE_MODEL):
-            Logics.change_model(part, t.split(" ", 1)[-1])
+            Logics.change_model(part, t.split(" ", 1)[1])
         elif t == CTypes.CONTINUE_GAME:
             Logics.todays_goal(part)
         else:
