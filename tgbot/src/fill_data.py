@@ -2,6 +2,7 @@ import pandas as pd
 from . import db
 from . import config as S
 from os.path import join
+from datetime import datetime
 
 
 def insert_or_create(col, row, idx):
@@ -38,6 +39,7 @@ for row in df.itertuples():
 print("Start write transactions")
 for i, fn in enumerate(join(S.ROOT_DATA_FOLDER, f"avk_hackathon_data_transactions-{j}.csv") for j in range(1, 1 + _MAX_PARTS)):
     df = pd.read_csv(fn, parse_dates=["transaction_dttm"])
+    df["weeknum"] = df["transaction_dttm"].map(lambda x: x.isocalendar()[1])
     for row in df.itertuples():
         insert_or_create(db.transactions, row, i)
         rows_written += 1
