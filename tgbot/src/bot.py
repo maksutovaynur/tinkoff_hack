@@ -196,7 +196,7 @@ class Logics:
             part,
             f"Based on your previous spendings, we found {len(categories_to_optimize)} categories you can optimize:\n"
             f"[model used: '{part['model_to_use']}']",
-            markup=create_keyboard([f"{CParts.SELECT_CATEGORY} {cat}" for cat in categories_to_optimize])
+            markup=create_keyboard([f"{CParts.SELECT_CATEGORY} {cat}" for cat in categories_to_optimize] + [CTypes.MAIN_MENU])
         )
 
     @classmethod
@@ -231,7 +231,7 @@ class Logics:
         cls.notify(
             part,
             "Fine! By how many percent you challenge to reduce your spendings?",
-            markup=create_keyboard([f"{CParts.SELECT_PERCENT} {x}" for x in cls.PERCENTAGES])
+            markup=create_keyboard([f"{CParts.SELECT_PERCENT} {x}" for x in cls.PERCENTAGES] + [CTypes.MAIN_MENU])
         )
 
     @classmethod
