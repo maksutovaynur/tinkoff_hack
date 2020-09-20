@@ -178,7 +178,6 @@ class Logics:
                 part,
                 f"Great! You made a {percent: .0f}% challenge! "
                 f"This week you've spent {amt_spent: .0f} р. on '{part['curr_challenge_category']}' ( < {amt_limit: .0f} р.)\n"
-                f"This week you've spent {amt_spent: .0f} р. on '{part['curr_challenge_category']}' ( < {amt_limit: .0f} р.)\n"
                 f"By completing this challenge you saved {amt_pred - amt_spent: .0f} р. Let's put them to the deposit ?"
                 if amt_spent < amt_limit else
                 f"You could better! "
