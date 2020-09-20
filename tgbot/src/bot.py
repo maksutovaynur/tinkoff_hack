@@ -231,7 +231,7 @@ class Logics:
         cls.notify(
             part,
             "Fine! By how many percent you challenge to reduce your spendings?",
-            markup=create_keyboard([f"{CParts.SELECT_PERCENT} {x}" for x in cls.PERCENTAGES] + [CTypes.MAIN_MENU])
+            markup=create_keyboard([f"{CParts.SELECT_PERCENT} {x}%" for x in cls.PERCENTAGES] + [CTypes.MAIN_MENU])
         )
 
     @classmethod
