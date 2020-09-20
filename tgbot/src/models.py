@@ -25,11 +25,11 @@ class StupidModel(Model):
 
 
 class SimpleStatModel(Model):
-    def predict_categories(self, part: dict):
+    def predict_categories(self, part: dict, days=7):
         now = part["today"]
         all_transactions = db.transactions.find(
             {
-                "transaction_dttm": {"$gt": now - timedelta(days=7), "$lt": now},
+                "transaction_dttm": {"$gt": now - timedelta(days=days), "$lt": now},
                 "party_rk": part["party_rk"]
             },
         )
@@ -39,18 +39,25 @@ class SimpleStatModel(Model):
             result[cat] = result.setdefault(cat, 0) + tr["transaction_amt_rur"]
         with_importance_list = sorted([(k, v, v * importance[str(k)]) for k, v in result.items()], key=lambda x: -x[-1])
         lst = [x for x in (w[0] for w in with_importance_list) if isinstance(x, str) and x.lower() != "nan"]
-        return lst[:3]
+        if len(lst) >= 3:
+            return lst[:3]
+        else:
+            return self.predict_categories(part, days=days*2)
 
-    def predict_week_amt(self, part: dict):
+    def predict_week_amt(self, part: dict, days=7):
         now = part["today"]
         all_transactions = db.transactions.find(
             {
-                "transaction_dttm": {"$gt": now - timedelta(days=7), "$lt": now},
+                "transaction_dttm": {"$gt": now - timedelta(days=days), "$lt": now},
                 "party_rk": part["party_rk"],
                 "category": part["curr_challenge_category"]
             },
         )
-        return sum((t["transaction_amt_rur"] for t in all_transactions))
+        sm = sum((t["transaction_amt_rur"] for t in all_transactions))
+        if sm >= 2000:
+            return sm
+        else:
+            return self.predict_week_amt(part, days=days*2)/2
 
 
 models_to_use = {
