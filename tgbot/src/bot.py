@@ -252,7 +252,7 @@ class Logics:
               f"mean_spend={mean_spend}, all_days={all_days}, days_for_finish={days_for_finish},"
               f"amt_limit={amt_limit}, amt_spent={amt_spent}")
 
-        total = f"\nSpent total during the week: {amt_spent}. Your goal: {amt_limit: .0f}"
+        total = "" #f"\nSpent total during the week: {amt_spent}. Your goal: {amt_limit: .0f}"
         if today_left > 0:
             return f"Today you still can spend {today_left: .0f}р. Or you can save more money !)\n" + total
         else:
@@ -267,8 +267,8 @@ class Logics:
         cls.notify(
             part,
             f"Day {1 + days_from_start}\n"
-            f"Category {part['curr_challenge_category']} challenge: {amt_limit: .0f}\n"
-            f"You already spent: {amt_spent: .0f}\n"
+            f"Saving challenge: {amt_limit: .0f} per week on category '{part['curr_challenge_category']}'\n"
+            f"You already spent {amt_spent: .0f} during this week\n"
             + cls.money_left(part),
             show_status=False,
             markup=create_keyboard(
