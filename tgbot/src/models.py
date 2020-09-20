@@ -1,7 +1,9 @@
-from datetime import datetime, timedelta
-from . import db
+import random
+from datetime import timedelta
 
+from . import db
 from .categories import importance
+
 
 class ModelTypes:
     STUPID = "stupid"
@@ -21,7 +23,7 @@ class StupidModel(Model):
         return ["Фаст Фуд", "Кино", "Одежда/Обувь"]
 
     def predict_week_amt(self, part: dict):
-        return 6000
+        return random.randint(3000, 15000)
 
 
 class SimpleStatModel(Model):

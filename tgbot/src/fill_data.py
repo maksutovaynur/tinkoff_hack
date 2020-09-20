@@ -1,8 +1,10 @@
-import pandas as pd
-from . import db
-from . import config as S
-from os.path import join
 import gc
+from os.path import join
+
+import pandas as pd
+
+from . import config as S
+from . import db
 from .utils import log
 
 

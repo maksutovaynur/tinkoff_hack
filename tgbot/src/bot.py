@@ -1,10 +1,11 @@
+from datetime import datetime, timedelta
+
 import telebot
 from telebot.types import Message, ReplyKeyboardMarkup, KeyboardButton
+
 from . import config as S
 from . import db
-from datetime import datetime, timedelta
 from .models import get_model, ModelTypes, models_to_use
-
 from .utils import log
 
 bot = telebot.TeleBot(S.BOT_TOKEN)
