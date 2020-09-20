@@ -36,7 +36,7 @@ for row in df.itertuples():
 
 
 print("Start write transactions")
-for i, fn in enumerate(join(S.ROOT_DATA_FOLDER, f"avk_hackathon_data_transactions-{i}.csv") for i in range(1, 1 + _MAX_PARTS)):
+for i, fn in enumerate(join(S.ROOT_DATA_FOLDER, f"avk_hackathon_data_transactions-{j}.csv") for j in range(1, 1 + _MAX_PARTS)):
     df = pd.read_csv(fn, parse_dates=["transaction_dttm"])
     for row in df.itertuples():
         insert_or_create(db.transactions, row)
