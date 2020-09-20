@@ -34,6 +34,11 @@ def add_row(col, row, idx=0, write_each=10000, cache=[]):
 _MAX_PARTS = 12
 
 
+db.socdem.delete_many({})
+db.balances.delete_many({})
+db.transactions.delete_many({})
+
+
 gc.collect()
 log("Socdem info")
 df = pd.read_csv(join(S.ROOT_DATA_FOLDER, "avk_hackathon_data_party_x_socdem.csv"))
