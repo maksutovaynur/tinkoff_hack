@@ -2,6 +2,7 @@ import pandas as pd
 from . import db
 from . import config as S
 from os.path import join
+import gc
 from .utils import log
 
 
@@ -33,6 +34,7 @@ def add_row(col, row, idx=0, write_each=10000, cache=[]):
 _MAX_PARTS = 12
 
 
+gc.collect()
 log("Socdem info")
 df = pd.read_csv(join(S.ROOT_DATA_FOLDER, "avk_hackathon_data_party_x_socdem.csv"))
 for row in df.itertuples():
@@ -40,6 +42,7 @@ for row in df.itertuples():
 add_row(db.socdem, None)
 
 
+gc.collect()
 log("Balance info")
 df = pd.read_csv(join(S.ROOT_DATA_FOLDER, "avk_hackathon_data_account_x_balance.csv"))
 for row in df.itertuples():
@@ -49,6 +52,7 @@ add_row(db.balances, None)
 
 log("Start write transactions")
 for i, fn in enumerate(join(S.ROOT_DATA_FOLDER, f"avk_hackathon_data_transactions-{j}.csv") for j in range(1, 1 + _MAX_PARTS)):
+    gc.collect()
     df = pd.read_csv(fn, parse_dates=["transaction_dttm"])
     df["weeknum"] = df["transaction_dttm"].map(lambda x: x.isocalendar()[1])
     for row in df.itertuples():
