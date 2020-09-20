@@ -19,7 +19,7 @@ def insert_or_create(col, rows):
 rows_written = 0
 
 
-def add_row(col, row, idx=0, write_each=10000, cache=[]):
+def add_row(col, row, idx=0, write_each=2000, cache=[]):
     global rows_written
     if row is not None:
         cache.append(preprocess_docs(row, idx))
