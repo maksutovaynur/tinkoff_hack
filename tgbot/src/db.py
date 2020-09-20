@@ -17,7 +17,7 @@ app_state = __app_database["state"]
 
 
 __fields = [
-    "tg_user_id",
+    "chat_id",
     "party_rk",
     "today",
     "curr_challenge_start_dttm",
@@ -27,3 +27,7 @@ __fields = [
     "curr_challenge_percent",
     "challenge_history"
 ]
+
+
+def update_or_insert_app_data(data):
+    app_state.update_one({"party_rk": data["party_rk"]}, update={"$set": data}, upsert=True)
