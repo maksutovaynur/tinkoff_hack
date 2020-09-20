@@ -177,11 +177,14 @@ class Logics:
             cls.notify(
                 part,
                 f"Great! You made a {percent: .0f}% challenge! "
-                f"You've spent {amt_spent} on '{part['curr_challenge_category']}' ( < {amt_pred: .0f})"
+                f"This week you've spent {amt_spent: .0f} р. on '{part['curr_challenge_category']}' ( < {amt_limit: .0f} р.)\n"
+                f"This week you've spent {amt_spent: .0f} р. on '{part['curr_challenge_category']}' ( < {amt_limit: .0f} р.)\n"
+                f"By completing this challenge you saved {amt_pred - amt_spent: .0f} р. Let's put them to the deposit ?"
                 if amt_spent < amt_limit else
                 f"You could better! "
-                f"You already spent less than last week ({amt_spent} over {amt_pred}), "
-                f"but you did not reduce your spendings by {percent}%"
+                f"You already spent less than last week ({amt_spent:.0f} р. over {amt_pred:.0f} р.), "
+                f"but you did not reduce your spendings by {percent}%. \n"
+                f"Still, you saved {amt_pred - amt_spent: .0f} р. this week. Let's move them to the deposit ?"
                 if amt_spent < amt_pred else
                 "Oh no! You failed last week's challenge!"
             )
@@ -270,13 +273,13 @@ class Logics:
         cls.notify(
             part,
             f"Day {1 + days_from_start}\n"
-            f"Saving challenge: {amt_limit: .0f} per week on category '{part['curr_challenge_category']}'\n"
-            f"You already spent {amt_spent: .0f} during this week\n"
+            f"Saving challenge: {amt_limit: .0f} р. per week on category '{part['curr_challenge_category']}'\n"
+            f"You already spent {amt_spent: .0f} р. during this week\n"
             + cls.money_left(part),
             show_status=False,
             markup=create_keyboard(
                 [CTypes.NEXT_DAY],
-                [f"{CParts.SPEND} {m}" for m in moneys],
+                [f"{CParts.SPEND} {m} р." for m in moneys],
                 [f"{CParts.CHANGE_MODEL} {m}" for m in models_to_use.keys()]
             )
         )
@@ -301,7 +304,7 @@ class Logics:
             f"Today: {str(part['today']).split(' ', 1)[0]}\n"
             + f"Current challenge category: {part['curr_challenge_category']}\n"
             if part['curr_challenge_category'] is not None else "no challenge\n"
-            f"Account money left: {part['account_money']}\n"
+            f"Account money left: {part['account_money']: .0f} р.\n"
         )
 
 
