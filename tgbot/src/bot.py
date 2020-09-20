@@ -261,6 +261,9 @@ class Logics:
 
     @classmethod
     def todays_goal(cls, part):
+        if part["curr_challenge_start_dttm"] is None:
+            cls.suggest_new_categories(part)
+            return
         days_from_start = (part["today"] - part["curr_challenge_start_dttm"]).days
         moneys = [100, 200, 300]
         amt_spent, amt_limit, amt_pred, percent = get_amts(part)
