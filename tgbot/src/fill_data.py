@@ -17,8 +17,25 @@ def insert_or_create(col, row):
 rows_written = 0
 _MAX_PARTS = 12
 _LOG_EVERY = 500
-print("Start write transactions")
 
+
+print("Balance info")
+df = pd.read_csv(join(S.ROOT_DATA_FOLDER, "avk_hackathon_data_account_x_balance.csv"))
+for row in df.itertuples():
+    insert_or_create(db.balances, row)
+    rows_written += 1
+    if rows_written % _LOG_EVERY == 0: print(f"{rows_written} rows written")
+
+
+print("Socdem info")
+df = pd.read_csv(join(S.ROOT_DATA_FOLDER, "avk_hackathon_data_party_x_socdem.csv"))
+for row in df.itertuples():
+    insert_or_create(db.socdem, row)
+    rows_written += 1
+    if rows_written % _LOG_EVERY == 0: print(f"{rows_written} rows written")
+
+
+print("Start write transactions")
 for i, fn in enumerate(join(S.ROOT_DATA_FOLDER, f"avk_hackathon_data_transactions-{i}.csv") for i in range(1, 1 + _MAX_PARTS)):
     df = pd.read_csv(fn, parse_dates=["transaction_dttm"])
     for row in df.itertuples():
@@ -27,9 +44,5 @@ for i, fn in enumerate(join(S.ROOT_DATA_FOLDER, f"avk_hackathon_data_transaction
         if rows_written % _LOG_EVERY == 0: print(f"{rows_written} rows written")
 
 
-df = pd.read_csv(join(S.ROOT_DATA_FOLDER, "avk_hackathon_data_account_x_balance.csv"))
-for row in df.itertuples():
-    insert_or_create(db.balances, row)
-    rows_written += 1
-    if rows_written % _LOG_EVERY == 0: print(f"{rows_written} rows written")
+
 

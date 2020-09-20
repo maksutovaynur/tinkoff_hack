@@ -1,7 +1,7 @@
 import telebot
 from telebot.types import Message
 from . import config as S
-
+from . import db
 bot = telebot.TeleBot(S.BOT_TOKEN)
 
 
@@ -33,4 +33,22 @@ class Commands:
 
     @classmethod
     def assign(cls, chat_id):
-        pass
+        d_find = {"chat_id": chat_id}
+        result = db.app_state.find_one(d_find)
+        if result is not None:
+            bot.send_message(chat_id, "Deleted existing simulation data")
+            db.app_state.delete_one(d_find)
+
+
+    @classmethod
+    def flush(cls, chat_id):
+        d_find = {"chat_id": chat_id}
+        result = db.app_state.find_one(d_find)
+        if result is not None:
+            bot.send_message(chat_id, "Deleted existing simulation data")
+            db.app_state.delete_one(d_find)
+
+
+def get_random_party_rk():
+    result = db.socdem.aggregate([{"$sample": {"size": 1}}])
+    print(f"Get Random RK result: {result}")

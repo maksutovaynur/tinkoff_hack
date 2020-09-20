@@ -10,6 +10,7 @@ __existing_data = __client.get_database("tinkoff-data")
 
 transactions = __existing_data["transactions"]
 balances = __existing_data["balances"]
+socdem = __existing_data["socdem"]
 
 
 app_state = __app_database["state"]
