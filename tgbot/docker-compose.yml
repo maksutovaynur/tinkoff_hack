@@ -19,6 +19,7 @@ services:
     networks:
       - tinkoffbot
     command: python -m src.main
+    restart: always
 
 
 networks:

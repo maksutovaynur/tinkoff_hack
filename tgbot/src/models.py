@@ -1,8 +1,11 @@
-from datetime import datetime
+from datetime import datetime, timedelta
+from . import db
 
+from .categories import importance
 
 class ModelTypes:
     STUPID = "stupid"
+    SIMPLE_STAT = "simple_stat"
 
 
 class Model:
@@ -21,8 +24,37 @@ class StupidModel(Model):
         return 6000
 
 
+class SimpleStatModel(Model):
+    def predict_categories(self, part: dict):
+        now = part["today"]
+        all_transactions = db.transactions.find(
+            {
+                "transaction_dttm": {"$gt": now - timedelta(days=7), "$lt": now},
+                "party_rk": part["party_rk"]
+            },
+        )
+        result = {}
+        for tr in all_transactions:
+            cat = tr["category"]
+            result[cat] = result.setdefault(cat, 0) + tr["transaction_amt_rur"]
+        with_importance = sorted([(k, v, v * importance[str(k)]) for k, v in result.items()], key=lambda x: -x[-1])[:3]
+        return [w[0] for w in with_importance]
+
+    def predict_week_amt(self, part: dict):
+        now = part["today"]
+        all_transactions = db.transactions.find(
+            {
+                "transaction_dttm": {"$gt": now - timedelta(days=7), "$lt": now},
+                "party_rk": part["party_rk"],
+                "category": part["curr_challenge_category"]
+            },
+        )
+        return sum((t["transaction_amt_rur"] for t in all_transactions))
+
+
 models_to_use = {
-    ModelTypes.STUPID: StupidModel()
+    ModelTypes.STUPID: StupidModel(),
+    ModelTypes.SIMPLE_STAT: SimpleStatModel(),
 }
 
 
