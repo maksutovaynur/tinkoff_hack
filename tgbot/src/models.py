@@ -28,6 +28,7 @@ class StupidModel(Model):
 
 class SimpleStatModel(Model):
     def predict_categories(self, part: dict, days=7):
+        if days > 100: return []
         now = part["today"]
         all_transactions = db.transactions.find(
             {
@@ -56,7 +57,7 @@ class SimpleStatModel(Model):
             },
         )
         sm = sum((t["transaction_amt_rur"] for t in all_transactions))
-        if sm >= 2000:
+        if sm >= 2000 or days > 100:
             return sm
         else:
             return self.predict_week_amt(part, days=days*2)/2
