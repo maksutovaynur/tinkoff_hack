@@ -2,7 +2,7 @@ import pandas as pd
 from . import db
 from . import config as S
 from os.path import join
-from datetime import datetime
+import sys
 
 
 def insert_or_create(col, row, idx):
@@ -25,7 +25,9 @@ df = pd.read_csv(join(S.ROOT_DATA_FOLDER, "avk_hackathon_data_account_x_balance.
 for row in df.itertuples():
     insert_or_create(db.balances, row, 0)
     rows_written += 1
-    if rows_written % _LOG_EVERY == 0: print(f"{rows_written} rows written")
+    if rows_written % _LOG_EVERY == 0:
+        print(f"{rows_written} rows written")
+        sys.stdout.flush()
 
 
 print("Socdem info")
@@ -33,7 +35,9 @@ df = pd.read_csv(join(S.ROOT_DATA_FOLDER, "avk_hackathon_data_party_x_socdem.csv
 for row in df.itertuples():
     insert_or_create(db.socdem, row, 0)
     rows_written += 1
-    if rows_written % _LOG_EVERY == 0: print(f"{rows_written} rows written")
+    if rows_written % _LOG_EVERY == 0:
+        print(f"{rows_written} rows written")
+        sys.stdout.flush()
 
 
 print("Start write transactions")
@@ -43,7 +47,9 @@ for i, fn in enumerate(join(S.ROOT_DATA_FOLDER, f"avk_hackathon_data_transaction
     for row in df.itertuples():
         insert_or_create(db.transactions, row, i)
         rows_written += 1
-        if rows_written % _LOG_EVERY == 0: print(f"{rows_written} rows written")
+        if rows_written % _LOG_EVERY == 0:
+            print(f"{rows_written} rows written")
+            sys.stdout.flush()
 
 
 
