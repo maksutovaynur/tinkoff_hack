@@ -64,7 +64,7 @@ def root(message: Message):
         elif t.startswith(CParts.CHANGE_MODEL):
             Logics.change_model(part, t.split(" ", 1)[-1])
         elif t == CTypes.CONTINUE_GAME:
-            Logics.todays_goal(part)
+            Logics.next_day(part)
         else:
             bot.send_message(chat_id, "Sorry, unknown action")
             Commands.help(chat_id)
