@@ -30,8 +30,7 @@ def add_row(col, row, idx=0, write_each=2000, cache=[]):
         log(f"{rows_written} rows written")
 
 
-
-_MAX_PARTS = 12
+_MAX_PARTS = 30
 
 
 db.socdem.delete_many({})

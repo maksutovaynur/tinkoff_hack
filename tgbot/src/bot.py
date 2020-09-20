@@ -10,10 +10,7 @@ bot = telebot.TeleBot(S.BOT_TOKEN)
 
 
 class CmdTypes:
-    START = "/start"
-    ASSIGN = "/assign"
-    CONTINUE = "/continue"
-    FLUSH = "/flush"
+    ASSIGN = "/sign in as a customer"
     HELP = "/help"
 
 
@@ -25,6 +22,9 @@ def root(message: Message):
     if message.text == CmdTypes.ASSIGN:
         log(f"{CmdTypes.ASSIGN} message")
         Commands.assign(chat_id)
+    elif message.text == CmdTypes.HELP:
+        log(f"{CmdTypes.HELP} message")
+        Commands.help(chat_id)
     else:
         part = get_exiting_party_rk(chat_id)
         if part is None:
@@ -33,11 +33,14 @@ def root(message: Message):
             return
 
 
-def create_keyboard(*answers):
+def create_keyboard(*rows):
     kb = ReplyKeyboardMarkup()
-    for a in answers:
-        kb.add(KeyboardButton(a))
+    for row in rows:
+        kb.row(*[KeyboardButton(a) for a in row])
     return kb
+
+
+root_kb = create_keyboard([CmdTypes.HELP, CmdTypes.ASSIGN])
 
 
 class Commands:
@@ -46,7 +49,7 @@ class Commands:
         bot.send_message(
             chat_id,
             "Welcome to Tinkoff Save Adviser! Choose what you want to do:",
-            reply_markup=create_keyboard(CmdTypes.HELP, CmdTypes.ASSIGN)
+            reply_markup=root_kb
         )
 
     @classmethod
@@ -72,7 +75,11 @@ class Commands:
             challenge_history=[],
         )
         db.update_or_insert_app_data(app_data)
-        bot.send_message(chat_id, f"Simulation started [your party_rk={app_data['party_rk']}]")
+        bot.send_message(
+            chat_id,
+            f"Simulation started [your party_rk={app_data['party_rk']}]",
+            reply_markup=create_keyboard()
+        )
 
     @classmethod
     def flush(cls, chat_id):
